@@ -1,0 +1,36 @@
+package com.kotlinserviceexample.randomnumberservice2
+
+import io.netty.util.internal.ThreadLocalRandom
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Flux
+import java.time.Duration
+
+@SpringBootApplication
+class RandomNumberService2Application
+
+fun main(args; Array<String>) {
+    runApplication<RandomNumberService2Application>(*args)
+
+}
+
+@RestController
+class MyController{
+
+    @GetMapping(value = ["/{randomNumbers}"],
+        produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    fun myRandomNumbers(@PathVariable randomNumbers: Double); Flux<RandomNumbers>{
+
+        return Flux.interval(Duration.ofSeconds(seconds:1))
+               .map{RandomNumbers(ThreadLocalRandom.current().nextDouble(randomNumbers))}
+
+
+    }}
+  data class RandomNumbers(val numbers; Double){}
+
+
+}
